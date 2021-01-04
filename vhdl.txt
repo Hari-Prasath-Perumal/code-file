@@ -1,0 +1,116 @@
+-- when_else
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity when_else is
+port(
+     A : in std_logic;
+	  B : in std_logic;
+	  C : in std_logic;
+	  assign_A : in std_logic;
+	  assign_B : in std_logic;
+	  Z : out std_logic
+	  );
+end when_else;
+
+architecture Behavioral of when_else is
+
+begin
+    
+    Z<= A when assign_A = '1' else
+	     B when assign_B = '1' else
+		  C;
+end Behavioral;
+
+--test bench
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY when_else_tb IS
+END when_else_tb;
+ 
+ARCHITECTURE behavior OF when_else_tb IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT when_else
+    PORT(
+         A : IN  std_logic;
+         B : IN  std_logic;
+         C : IN  std_logic;
+         assign_A : IN  std_logic;
+         assign_B : IN  std_logic;
+         Z : OUT  std_logic
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal A : std_logic := '0';
+   signal B : std_logic := '0';
+   signal C : std_logic := '0';
+   signal assign_A : std_logic := '0';
+   signal assign_B : std_logic := '0';
+
+ 	--Outputs
+   signal Z : std_logic;
+   -- No clocks detected in port list. Replace <clock> below with 
+   -- appropriate port name 
+ 
+   
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: when_else PORT MAP (
+          A => A,
+          B => B,
+          C => C,
+          assign_A => assign_A,
+          assign_B => assign_B,
+          Z => Z
+        );
+
+   
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+
+     
+
+      -- insert stimulus here 
+		
+		A<= '1';
+		B<= '0';
+		C<= '1';
+		assign_A<= '0';
+		assign_B<= '1';
+		wait for 10 ns;
+		assign_A<= '1';
+		assign_B<= '0';
+		wait for 10 ns;
+		assign_A<= '0';
+		assign_B<= '0';
+		
+
+      wait;
+   end process;
+
+END;
