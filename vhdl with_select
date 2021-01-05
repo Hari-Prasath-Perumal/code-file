@@ -1,0 +1,119 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity with_select is
+port(
+     A : in std_logic;
+	  B : in std_logic;
+	  C : in std_logic;
+	  D : in std_logic;
+	  control : in std_logic_vector(1 downto 0);
+	  Z : out std_logic
+	  );
+end with_select;
+
+architecture Behavioral of with_select is
+signal control_signal : std_logic_vector(1 downto 0);
+
+begin
+
+control_signal <= control;
+     with control_signal select
+	    Z <= A when "00",
+		      B when "01",
+				C when "10",
+				D when "11",
+				'0' when others;
+end Behavioral;
+
+test batch
+
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY when_select_tb IS
+END when_select_tb;
+ 
+ARCHITECTURE behavior OF when_select_tb IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT with_select
+    PORT(
+         A : IN  std_logic;
+         B : IN  std_logic;
+         C : IN  std_logic;
+         D : IN  std_logic;
+         control : IN  std_logic_vector(1 downto 0);
+         Z : OUT  std_logic
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal A : std_logic := '0';
+   signal B : std_logic := '0';
+   signal C : std_logic := '0';
+   signal D : std_logic := '0';
+   signal control : std_logic_vector(1 downto 0) := (others => '0');
+
+ 	--Outputs
+   signal Z : std_logic;
+   -- No clocks detected in port list. Replace <clock> below with 
+   -- appropriate port name 
+ 
+   
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: with_select PORT MAP (
+          A => A,
+          B => B,
+          C => C,
+          D => D,
+          control => control,
+          Z => Z
+        );
+
+   
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+
+      
+      -- insert stimulus here 
+		A<= '1';
+		B <= '0';
+		C <= '1';
+		D <= '0';
+		control <= "00";
+		wait for 10 ns;
+		control <= "01";
+		wait for 10 ns;
+		control <= "10";
+      wait for 10 ns;
+		control <= "11";
+		wait for 10 ns;
+      wait;
+   end process;
+
+END;
